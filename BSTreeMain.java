@@ -6,11 +6,11 @@ public class BSTreeMain {
 	public static void main(String args[]) // Runs JFrame with panels
 	{
 		final BSTree tree = new BSTree();
-		tree.insertNode("bacon");
-		tree.insertNode("potato");
-		tree.insertNode("banana");
-		tree.insertNode("cow");
-		tree.insertNode("moo");
+		tree.insertNode(new Word("bacon"));
+		tree.insertNode(new Word("potato"));
+		tree.insertNode(new Word("banana"));
+		tree.insertNode(new Word("cow"));
+		tree.insertNode(new Word("moo"));
 		tree.postOrder();
 		tree.preOrder();
 	}
