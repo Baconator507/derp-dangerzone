@@ -22,28 +22,6 @@ public class BSTree<T extends Comparable>{
 		return countNodes(root);
 	}
 
-	public void loadTree(String file){
-		
-		Scanner s = null;
-		try {
-			s = new Scanner(new BufferedReader(new FileReader(file)));
-			while (s.hasNext()) {
-			}
-		} 
-		catch(FileNotFoundException e)
-		{
-			System.out.println("File Not Found: ") ; 
-		}
-		catch(IOException e)
-		{
-			System.out.println("IOException " + e.getMessage() ); // !!READ_ONLY!!
-		}
-		finally {
-			if (s != null) { 
-				s.close();
-			}
-		}
-	} 
 
 	public int countNodes(Node node){
 		int count = 1;
@@ -81,6 +59,21 @@ public class BSTree<T extends Comparable>{
 		visit(node);
 		preOrder(node.left());
 		preOrder(node.right());
+		return true;
+	}
+	
+	public void inOrder(){
+		System.out.println("In Order Traversal");
+		inOrder(this.root);
+		System.out.println("END OF TREE\n");
+	}
+
+	public boolean inOrder(Node<T> node){
+		if(node == null )
+			return true;
+		inOrder(node.left());
+		visit(node);
+		inOrder(node.right());
 		return true;
 	}
 
