@@ -10,9 +10,15 @@ public class BSTreeMain {
 	{
 		final BSTree tree = new BSTree();
 		loadTree(tree,"words.txt");
-		tree.postOrder();
-		tree.preOrder();
+//		tree.postOrder();
+	//	tree.preOrder();
+
 		tree.inOrder();
+		System.out.println(tree.findNode(new Word("Apple")));
+		tree.clearOrder();
+		tree.inOrder();
+
+
 	}
 
 	public static void loadTree(BSTree tree, String file){

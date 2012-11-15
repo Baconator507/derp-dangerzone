@@ -1,16 +1,20 @@
-public class Node<T extends Comparable>{
+public class Node<T extends Comparable> {
 	private Node left;
 	private Node right;
-	private T data;
+	private T word;
 
 	public Node(T t){
-		data = t;
+		word = t;
 		left = right = null;
 	}
 
 
-	public T data(){
-		return data;
+	public Word data(){
+		return (Word) word;
+	}
+
+	public void setData(T data){
+		word = data;
 	}
 
 	public Node left(){
@@ -21,6 +25,17 @@ public class Node<T extends Comparable>{
 		return right;
 	}
 
+	public void clear(){
+		left = null;
+		right = null;
+	}
+	public void clearRight(){
+		right.clear();
+	}
+	public void clearLeft(){
+		left.clear();
+	}
+
 	public void setLeft(Node l){
 		this.left = l;
 	}
@@ -29,6 +44,13 @@ public class Node<T extends Comparable>{
 		this.right = r;
 	}
 
+	public int compareTo(T w){
+		return word.compareTo(w);
+	}
+
+	public String toString(){
+		return word.toString();
+	}
 
 
 }

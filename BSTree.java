@@ -2,7 +2,7 @@ import java.util.*;
 import java.io.*;
 
 public class BSTree<T extends Comparable>{
-	private Node<T> root;
+	private Node<Word> root;
 
 	public BSTree(){
 		this.root = null;
@@ -18,9 +18,63 @@ public class BSTree<T extends Comparable>{
 		return false;
 	}
 
+
 	public int countNodes(){
 		return countNodes(root);
 	}
+
+	public boolean delete(Word t){
+		Node temp;
+		Node ptr = findNode(t);
+		if(ptr == null)
+			return false;
+		if(ptr.left() == null){
+			ptr.setData(ptr.right().data());
+			ptr.setRight(ptr.right().right());
+			ptr.clearRight();
+			return true;
+		}
+		else if(ptr.right() == null){
+			ptr.setData(ptr.left().data());
+			ptr.setLeft(ptr.left().right());
+			ptr.clearLeft();
+			return true;
+		}
+		else{
+			temp = ptr.right();
+			while(temp.left() != null){
+				temp = temp.left();
+			}
+			ptr.setData(temp.data());
+			ptr.setLeft(temp.left().right());
+			ptr.setRight(temp.right().right());
+			return delete(ptr.right(), temp.data());
+		}
+	}
+
+	public boolean delete(Node ptr, Word t){
+		Node temp;
+		if(ptr == null)
+			return false;
+		if(ptr.left() == null){
+			ptr.setData(ptr.right().data());
+			ptr.clearRight();
+			return true;
+		}
+		else if(ptr.right() == null){
+			ptr.setData(ptr.left().data());
+			ptr.clearLeft();
+			return true;
+		}
+		else{
+			temp = ptr.right();
+			while(temp.left() != null)
+				temp = temp.left();
+			ptr.setData(temp.data());
+			return delete(ptr.right(), temp.data());
+		}
+	}
+
 
 
 	public int countNodes(Node node){
@@ -38,7 +92,7 @@ public class BSTree<T extends Comparable>{
 		System.out.println("END OF TREE\n");
 	}
 
-	public boolean postOrder(Node<T> node){
+	public boolean postOrder(Node node){
 		if(node == null )
 			return true;
 		postOrder(node.left());
@@ -47,13 +101,31 @@ public class BSTree<T extends Comparable>{
 		return true;
 	}
 
+	public boolean clearOrder(){
+		Node node = root;
+		clearOrder(node.left());
+		clearOrder(node.right());
+		clear(node);
+		return true;
+	}
+	public boolean clearOrder(Node node){
+		clearOrder(node.left());
+		clearOrder(node.right());
+		clear(node);
+		return true;
+	}
+
+	public void clear(Node node){
+		node.clear();
+	}
+
 	public void preOrder(){
 		System.out.println("Pre Order Traversal");
 		preOrder(this.root);
 		System.out.println("END OF TREE\n");
 	}
 
-	public boolean preOrder(Node<T> node){
+	public boolean preOrder(Node<Word> node){
 		if(node == null )
 			return true;
 		visit(node);
@@ -68,7 +140,7 @@ public class BSTree<T extends Comparable>{
 		System.out.println("END OF TREE\n");
 	}
 
-	public boolean inOrder(Node<T> node){
+	public boolean inOrder(Node<Word> node){
 		if(node == null )
 			return true;
 		inOrder(node.left());
@@ -77,23 +149,31 @@ public class BSTree<T extends Comparable>{
 		return true;
 	}
 
-	public void visit(Node<T> node){
+	public void visit(Node<Word> node){
 		System.out.println(node.data());
 	}
 
+	public Node findNode(Word word){
+		return findNode(root,word);
 
-	public Node findNode(Node node,T t){
-		if(node.data() == t)
+	}
+
+	public Node findNode(Node node, Word t){
+		if(node == null)
+			return null;
+		if(node.data().compareTo(t) == 0){
+			System.out.println("Found");
 			return node;
-		else if(node.left() != null)
-			return findNode(node.left(),t);
-		else if(node.right() != null)
-			return findNode(node.right(),t);
+		}
+		else if(node.compareTo(t) > 0)
+			return findNode(node.left(), t);
+		else if(node.compareTo(t) < 0)
+			return findNode(node.right(), t);
 		return null;
 	}
 
 
-	public boolean insertNode(T data){
+	public boolean insertNode(Word data){
 		if(isEmpty()){
 			root = new Node(data);
 			return true;
@@ -101,22 +181,22 @@ public class BSTree<T extends Comparable>{
 		return insertNode(this.root,data);
 	}
 
-	private boolean insertNode(Node<T> root, T data){
-		if(data.compareTo(root.data()) < 0){
+	private boolean insertNode(Node<Word> root, Word word){
+		if(word.compareTo(root.data()) < 0){
 			if(root.left() == null){
-				root.setLeft(new Node(data));
+				root.setLeft(new Node(word));
 				return true;
 			}
 			else
-				return insertNode(root.left(), data);
+				return insertNode(root.left(), word);
 		}
-		else if(data.compareTo(root.data()) >= 0){
+		else if(word.compareTo(root.data()) >= 0){
 			if(root.right() == null){
-				root.setRight(new Node(data));
+				root.setRight(new Node(word));
 				return true;
 			}
 			else
-				return insertNode(root.right(), data);
+				return insertNode(root.right(), word);
 		}
 		return false;
 	}
