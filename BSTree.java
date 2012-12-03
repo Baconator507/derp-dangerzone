@@ -196,6 +196,10 @@ public class BSTree<T extends Comparable>{
 		node.clear();
 	}
 
+	public void clear(){
+		root = null;
+	}
+
 	public Node findMin(){
 		return findMin(root);
 	}

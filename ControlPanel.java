@@ -78,6 +78,9 @@ public class ControlPanel extends JPanel {
 			else if (e.getActionCommand().equals("insert")){
 				tree.insertFromInput();
 			}
+			else if (e.getActionCommand().equals("clear")){
+				tree.clear();
+			}
 			else if (e.getActionCommand().equals("delete")){
 				tree.deleteFromInput();
 			}
