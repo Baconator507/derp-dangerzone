@@ -120,37 +120,9 @@ public class BSTree<T extends Comparable>{
 			}
 			ptr.setData(temp.data());
 			ptr.setRight(temp.right());
-			return delete(ptr.right(), temp.data());
-		}
-	}
-
-	public boolean delete(Node ptr, Word t){
-		Node temp;
-		if(ptr == null)
-			return false;
-		if(ptr.left() == null){
-			ptr.setData(ptr.right().data());
-			ptr.setRight(ptr.right().right());
-			ptr.setLeft(ptr.right().left());
 			return true;
 		}
-		else if(ptr.right() == null){
-			ptr.setData(ptr.left().data());
-			ptr.setLeft(ptr.left().right());
-			ptr.setRight(ptr.left().right());
-			return true;
-		}
-		else{
-			temp = ptr.right();
-			while(temp.left() != null)
-				temp = temp.left();
-			ptr.setData(temp.data());
-			ptr.setRight(temp.right());
-			return delete(ptr.right(), temp.data());
-		}
 	}
-
-
 
 	public int countNodes(Node node){
 		int count = 1;
