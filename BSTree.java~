@@ -1,14 +1,11 @@
 import java.util.*;
-import java.math.*;
 import java.io.*;
 
 public class BSTree<T extends Comparable>{
 	private Node<Word> root;
-	private OutputPanel out;
 
-	public BSTree( OutputPanel out){
+	public BSTree(){
 		this.root = null;
-		this.out = out;
 	}
 
 	public Node root(){
@@ -21,76 +18,6 @@ public class BSTree<T extends Comparable>{
 		return false;
 	}
 
-	public int height(){
-		return height(root);
-	}
-	public int height(Node node){
-		if(node == null)
-			return -1;
-
-		int left = height(node.left());
-		int right = height(node.right());
-
-		if(left > right)
-			return left + 1;
-		else
-			return right +1;
-	}
-
-	public ArrayList returnTree() 
-	{
-
-		if(isEmpty())
-			return null;
-
-		ArrayList<Node<Word>> list1 = levelOrderTraversal(root);
-		ArrayList<Word> list2 = new ArrayList<Word>();
-
-		for(int i=0;i < list1.size();i++)
-		{
-			if(list1.get(i) != null)
-			{
-				list2.add(list1.get(i).data());
-			}
-			else
-			{
-				list2.add(null);
-			}
-		}
-		return list2;
-
-	}
-
-
-	private ArrayList<Node<Word>> levelOrderTraversal(Node<Word> rt)
-	{
-		int index = 0;
-		ArrayList<Node<Word>> nodes, result;
-		nodes = new ArrayList<Node<Word>>();
-		result = new ArrayList<Node<Word>>();
-		Node<Word> current = rt;
-		nodes.add(current);
-
-		while (index < Math.pow(2,height()+1)-1)
-		{
-			current = (Node<Word>) nodes.get(index);
-
-			if(current != null)
-			{
-				nodes.add(current.left());
-				nodes.add(current.right());
-				result.add(current);
-			}
-			else
-			{
-				nodes.add(null);
-				nodes.add(null);
-				result.add(null);
-			}
-			index++;
-		}
-		return result;
-	}
 
 	public int countNodes(){
 		return countNodes(root);
@@ -119,7 +46,8 @@ public class BSTree<T extends Comparable>{
 				temp = temp.left();
 			}
 			ptr.setData(temp.data());
-			ptr.setRight(temp.right());
+			ptr.setLeft(temp.left().right());
+			ptr.setRight(temp.right().right());
 			return delete(ptr.right(), temp.data());
 		}
 	}
@@ -131,13 +59,11 @@ public class BSTree<T extends Comparable>{
 		if(ptr.left() == null){
 			ptr.setData(ptr.right().data());
 			ptr.setRight(ptr.right().right());
-			ptr.setLeft(ptr.right().left());
 			return true;
 		}
 		else if(ptr.right() == null){
 			ptr.setData(ptr.left().data());
 			ptr.setLeft(ptr.left().right());
-			ptr.setRight(ptr.left().right());
 			return true;
 		}
 		else{
@@ -145,7 +71,6 @@ public class BSTree<T extends Comparable>{
 			while(temp.left() != null)
 				temp = temp.left();
 			ptr.setData(temp.data());
-			ptr.setRight(temp.right());
 			return delete(ptr.right(), temp.data());
 		}
 	}
@@ -162,7 +87,6 @@ public class BSTree<T extends Comparable>{
 	}
 
 	public void postOrder(){
-		out.clear();
 		System.out.println("Post Order Traversal");
 		postOrder(this.root);
 		System.out.println("END OF TREE\n");
@@ -179,7 +103,6 @@ public class BSTree<T extends Comparable>{
 
 	public boolean clearOrder(){
 		Node node = root;
-		out.clear();
 		clearOrder(node.left());
 		clearOrder(node.right());
 		clear(node);
@@ -208,7 +131,6 @@ public class BSTree<T extends Comparable>{
 	}
 
 	public void preOrder(){
-		out.clear();
 		System.out.println("Pre Order Traversal");
 		preOrder(this.root);
 		System.out.println("END OF TREE\n");
@@ -222,9 +144,8 @@ public class BSTree<T extends Comparable>{
 		preOrder(node.right());
 		return true;
 	}
-
+	
 	public void inOrder(){
-		out.clear();
 		System.out.println("In Order Traversal");
 		inOrder(this.root);
 		System.out.println("END OF TREE\n");
@@ -241,7 +162,6 @@ public class BSTree<T extends Comparable>{
 
 	public void visit(Node<Word> node){
 		System.out.println(node.data());
-		out.setOutput(node.data().toString());
 	}
 
 	public Node findNode(Word word){
@@ -261,13 +181,6 @@ public class BSTree<T extends Comparable>{
 		else if(node.compareTo(t) < 0)
 			return findNode(node.right(), t);
 		return null;
-	}
-
-	public boolean insertFromInput(){
-		return insertNode(this.root,out.getWord());
-	}
-	public boolean deleteFromInput(){
-		return delete(out.getWord());
 	}
 
 
@@ -299,6 +212,10 @@ public class BSTree<T extends Comparable>{
 		return false;
 	}
 
+	public ArrayList returnTree(){
+//		ArrayList = new ArrayList<Node>();
+		return null;
+	}
 
 
 }

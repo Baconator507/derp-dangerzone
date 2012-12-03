@@ -1,0 +1,55 @@
+
+import java.util.List;
+
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.Dimension;
+import javax.swing.*;
+import javax.imageio.*;
+import java.io.*;
+import java.awt.image.*;
+import java.awt.*;
+
+
+public class LogPanel extends JPanel{
+	private JTextArea output;
+	private BufferedImage plane;
+	private BufferedImage img;
+	private JPanel welcomePanel;
+
+	public LogPanel(){
+		setLayout(new BorderLayout());
+		plane = load_image("plane.jpg");
+		output = new JTextArea();
+		welcomePanel = new WelcomePanel();
+		add(welcomePanel, BorderLayout.PAGE_START);
+		add(output, BorderLayout.CENTER);
+	}
+	public void setOutPut2 (String data) {String temp = "\n\r" + output.getText() + "\n\r"; output.setText(data + temp );}
+
+	public BufferedImage load_image(String path){
+		try {
+			img = ImageIO.read(new File(path));
+		} catch (IOException e) {
+			return null;
+		}
+		return img;
+	}
+	public void paintComponent(Graphics g) {
+		g.drawImage(plane,  0, 0, null);
+	}
+
+
+}
+
+
+class WelcomePanel extends JPanel{
+	private JLabel welcomeLabel;
+
+	public WelcomePanel(){
+		setLayout(new FlowLayout());
+		welcomeLabel = new JLabel("Welcome to BSTree Simulation");
+		add(welcomeLabel);
+	} 
+} 
+
